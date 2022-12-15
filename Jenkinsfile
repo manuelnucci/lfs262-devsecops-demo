@@ -108,13 +108,13 @@ pipeline {
             }
           }
         }
-        stage('Image Scan') {
-          steps {
-            container('docker-tools') {
-              sh 'trivy image --exit-code 1 manuelnucci/lfs262-devsecops-demo'
-            }
-          }
-        }
+        // stage('Image Scan') {
+        //   steps {
+        //     container('docker-tools') {
+        //       sh 'trivy image --exit-code 1 manuelnucci/lfs262-devsecops-demo'
+        //     }
+        //   }
+        // }
       }
     }
     stage('Deploy to Dev') {
