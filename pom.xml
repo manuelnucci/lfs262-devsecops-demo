@@ -16,6 +16,7 @@
 
 	<properties>
 		<java.version>1.8</java.version>
+		<snakeyaml.version>1.33</snakeyaml.version>
 	</properties>
 
 	<dependencies>
@@ -47,9 +48,9 @@
 				<groupId>org.owasp</groupId>
 				<artifactId>dependency-check-maven</artifactId>
 				<version>6.1.1</version>
-				<!-- <configuration>
+				<configuration>
 					<failBuildOnCVSS>8</failBuildOnCVSS>
-				</configuration> -->
+				</configuration>
 				<executions>
 					<execution>
 						<goals>
