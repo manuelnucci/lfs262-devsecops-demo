@@ -6,8 +6,10 @@ metadata:
   labels:
     app: devsecops-demo
   annotations:
-    checkov.io/skip1: CKV_K8S_14
-    checkov.io/skip2: CKV_K8S_43
+    checkov.io/skip1: CKV_K8S_8
+    checkov.io/skip2: CKV_K8S_9
+    checkov.io/skip3: CKV_K8S_14
+    checkov.io/skip4: CKV_K8S_43
 spec:
   replicas: 1
   selector:
@@ -45,18 +47,6 @@ spec:
           limits:
             cpu: "500m"
             memory: "128Mi"
-        readinessProbe:
-          httpGet:
-            path: /
-            port: 8080
-          initialDelaySeconds: 5
-          periodSeconds: 5
-        livenessProbe:
-          httpGet:
-            path: /
-            port: 8080
-          initialDelaySeconds: 5
-          periodSeconds: 5
         volumeMounts:
           - name: tmp
             mountPath: /tmp
