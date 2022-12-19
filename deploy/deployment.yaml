@@ -2,8 +2,12 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: devsecops-demo
+  namespace: devsecops-demo
   labels:
     app: devsecops-demo
+  annotations:
+    checkov.io/skip1: CKV_K8S_14
+    checkov.io/skip2: CKV_K8S_43
 spec:
   replicas: 1
   selector:
@@ -14,15 +18,48 @@ spec:
       labels:
         app: devsecops-demo
     spec:
+      automountServiceAccountToken: false
+      serviceAccountName: devsecops-demo
+      securityContext:
+        seccompProfile:
+          type: RuntimeDefault
+        runAsNonRoot: true
+        runAsUser: 11000
       containers:
       - name: devsecops-demo
         image: manuelnucci/lfs262-devsecops-demo
+        imagePullPolicy: Always
         ports:
         - containerPort: 8080
+        securityContext:
+          capabilities:
+            drop:
+              - "ALL"
+          privileged: false
+          allowPrivilegeEscalation: false
+          readOnlyRootFilesystem: true
         resources:
           requests:
-            memory: "64Mi"
             cpu: "250m"
+            memory: "64Mi"
           limits:
-            memory: "128Mi"
             cpu: "500m"
+            memory: "128Mi"
+        readinessProbe:
+          httpGet:
+            path: /
+            port: 8080
+          initialDelaySeconds: 5
+          periodSeconds: 5
+        livenessProbe:
+          httpGet:
+            path: /
+            port: 8080
+          initialDelaySeconds: 5
+          periodSeconds: 5
+        volumeMounts:
+          - name: tmp
+            mountPath: /tmp
+      volumes:
+        - name: tmp
+          emptyDir: {}

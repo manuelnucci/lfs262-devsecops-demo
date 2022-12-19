@@ -121,6 +121,13 @@ pipeline {
         // }
       }
     }
+    stage('Scan k8s Deploy Code') {
+      steps {
+        container('docker-tools') {
+          sh 'docker run --rm -it -v $(pwd):/app bridgecrew/checkov -d /app/deploy'
+        }
+      }
+    }
     stage('Deploy to Dev') {
       environment {
         AUTH_TOKEN = credentials('argocd-jenkins-deployer-token')

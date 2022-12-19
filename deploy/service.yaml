@@ -2,6 +2,7 @@ apiVersion: v1
 kind: Service
 metadata:
   name: devsecops-demo
+  namespace: devsecops-demo
   labels:
     app: devsecops-demo
 spec:
